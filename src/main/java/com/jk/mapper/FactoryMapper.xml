@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jk.mapper.FactoryMapper">
+
+  <!-- 数据库表映射 -->
+  <resultMap id="factoryRM" type="com.jk.pojo.Factory">
+    <id property="id" column="FACTORY_ID"/>
+    <result property="fullName" column="FULL_NAME"/>
+    <result property="factoryName" column="FACTORY_NAME"/>
+    <result property="contractor" column="CONTRACTOR"/>
+    <result property="phone" column="PHONE"/>
+    <result property="mobile" column="MOBILE"/>
+    <result property="fax" column="FAX"/>
+    <result property="cnote" column="CNOTE"/>
+    <result property="orderNo" column="ORDER_NO"/>
+    <result property="state" column="STATE"/>
+  </resultMap>
+
+  <!-- 查询所有记录 -->
+  <select id="find" parameterType="com.jk.pojo.Factory" resultMap="factoryRM">
+    select * from factory_c
+    where 1=1
+  </select>
+
+  <!--查询一个-->
+  <select id="get" resultMap="factoryRM" parameterType="string">
+    SELECT * FROM factory_c
+    WHERE factory_id=#{id}
+  </select>
+
+
+  <!--保存-->
+  <insert id="insert" parameterType="com.jk.pojo.Factory">
+    INSERT INTO factory_c
+    (FACTORY_ID,FULL_NAME,FACTORY_NAME,CONTRACTOR,PHONE,MOBILE,FAX,CNOTE,ORDER_NO,STATE)
+    VALUES (UUID(),#{fullName},#{factoryName},#{contractor},#{phone},#{mobile},#{fax},#{cnote},#{orderNo},1)
+  </insert>
+
+  <!--修改-->
+  <update id="update" parameterType="com.jk.pojo.Factory">
+    UPDATE factory_c
+    <set>
+      <if test="fullName!=null">
+       FULL_NAME=#{fullName}
+      </if>
+      <if test="factoryName!=null">
+        FACTORY_NAME=#{factoryName}
+      </if>
+      <if test="contractor!=null">
+        CONTRACTOR=#{contractor}
+      </if>
+      <if test="phone!=null">
+        PHONE=#{phone}
+      </if>
+      <if test="mobile!=null">
+        MOBILE=#{mobile}
+      </if>
+      <if test="fax!=null">
+        FAX=#{fax}
+      </if><if test="cnote!=null">
+        CNOTE=#{cnote}
+    </if>
+      <if test="orderNo!=null">
+        ORDER_NO=#{orderNo}
+      </if>
+    </set>
+    where FACTORY_ID=#{id}
+  </update>
+
+  <!--删除一条记录-->
+   <delete id="delete" parameterType="string">
+     DELETE FROM factory_c
+     WHERE FACTORY_ID=#{id}
+   </delete>
+
+
+  <!--批量删除-->
+  <delete id="delteBatch" parameterType="string">
+    DELETE FROM factory_c
+    WHERE FACTORY_ID IN
+    <foreach collection="array" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+
+
+  <!--修改状态 批量启用停用-->
+  <update id="changState" parameterType="map">
+    UPDATE factory_c
+    SET state=#{state}
+    where FACTORY_ID in
+    <foreach collection="ids" item="id" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </update>
+
+</mapper>

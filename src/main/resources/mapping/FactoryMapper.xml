@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.mapper.FactoryMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.pojo.Factory" >
+    <id column="FACTORY_ID" property="factoryId" jdbcType="VARCHAR" />
+    <result column="FULL_NAME" property="fullName" jdbcType="VARCHAR" />
+    <result column="FACTORY_NAME" property="factoryName" jdbcType="VARCHAR" />
+    <result column="CONTRACTOR" property="contractor" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="FAX" property="fax" jdbcType="VARCHAR" />
+    <result column="NOTE" property="note" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="INTEGER" />
+    <result column="STATE" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    FACTORY_ID, FULL_NAME, FACTORY_NAME, CONTRACTOR, PHONE, MOBILE, FAX, NOTE, ORDER_NO, 
+    STATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jk.pojo.FactoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from factory_c
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from factory_c
+    where FACTORY_ID = #{factoryId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from factory_c
+    where FACTORY_ID = #{factoryId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.jk.pojo.FactoryExample" >
+    delete from factory_c
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.jk.pojo.Factory" >
+    insert into factory_c (FACTORY_ID, FULL_NAME, FACTORY_NAME, 
+      CONTRACTOR, PHONE, MOBILE, 
+      FAX, NOTE, ORDER_NO, 
+      STATE)
+    values (#{factoryId,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{factoryName,jdbcType=VARCHAR}, 
+      #{contractor,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{fax,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.pojo.Factory" >
+    insert into factory_c
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="factoryId != null" >
+        FACTORY_ID,
+      </if>
+      <if test="fullName != null" >
+        FULL_NAME,
+      </if>
+      <if test="factoryName != null" >
+        FACTORY_NAME,
+      </if>
+      <if test="contractor != null" >
+        CONTRACTOR,
+      </if>
+      <if test="phone != null" >
+        PHONE,
+      </if>
+      <if test="mobile != null" >
+        MOBILE,
+      </if>
+      <if test="fax != null" >
+        FAX,
+      </if>
+      <if test="note != null" >
+        NOTE,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="factoryId != null" >
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="fullName != null" >
+        #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractor != null" >
+        #{contractor,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.jk.pojo.FactoryExample" resultType="java.lang.Integer" >
+    select count(*) from factory_c
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update factory_c
+    <set >
+      <if test="record.factoryId != null" >
+        FACTORY_ID = #{record.factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullName != null" >
+        FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.factoryName != null" >
+        FACTORY_NAME = #{record.factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractor != null" >
+        CONTRACTOR = #{record.contractor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fax != null" >
+        FAX = #{record.fax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        NOTE = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null" >
+        ORDER_NO = #{record.orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update factory_c
+    set FACTORY_ID = #{record.factoryId,jdbcType=VARCHAR},
+      FULL_NAME = #{record.fullName,jdbcType=VARCHAR},
+      FACTORY_NAME = #{record.factoryName,jdbcType=VARCHAR},
+      CONTRACTOR = #{record.contractor,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      MOBILE = #{record.mobile,jdbcType=VARCHAR},
+      FAX = #{record.fax,jdbcType=VARCHAR},
+      NOTE = #{record.note,jdbcType=VARCHAR},
+      ORDER_NO = #{record.orderNo,jdbcType=INTEGER},
+      STATE = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.pojo.Factory" >
+    update factory_c
+    <set >
+      <if test="fullName != null" >
+        FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryName != null" >
+        FACTORY_NAME = #{factoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="contractor != null" >
+        CONTRACTOR = #{contractor,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        MOBILE = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        FAX = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where FACTORY_ID = #{factoryId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.pojo.Factory" >
+    update factory_c
+    set FULL_NAME = #{fullName,jdbcType=VARCHAR},
+      FACTORY_NAME = #{factoryName,jdbcType=VARCHAR},
+      CONTRACTOR = #{contractor,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      MOBILE = #{mobile,jdbcType=VARCHAR},
+      FAX = #{fax,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      ORDER_NO = #{orderNo,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=INTEGER}
+    where FACTORY_ID = #{factoryId,jdbcType=VARCHAR}
+  </update>
+</mapper>
